@@ -31,7 +31,7 @@ static int readLine(const char *prompt, char *buf, int size)
     if (len > 0 && buf[len - 1] == '\n') {
         buf[--len] = '\0';
     } else {
-        int c;                      /* line too long: discard the rest */
+        int c;                     
         while ((c = getchar()) != '\n' && c != EOF) { }
     }
     while (len > 0 && isspace((unsigned char)buf[len - 1])) {
@@ -55,7 +55,7 @@ static void readNonEmpty(const char *prompt, char *buf, int size)
     while (1) {
         if (!readLine(prompt, buf, size)) {
             buf[0] = '\0';
-            return;                 /* end of input */
+            return;                 
         }
         if (strlen(buf) > 0) {
             return;
@@ -83,7 +83,7 @@ static int readIntInRange(const char *prompt, int min, int max)
     }
 }
 
-/* Reads a non-negative decimal number; repeats until valid. */
+
 static double readNonNegativeDouble(const char *prompt)
 {
     char line[LINE_LEN];
@@ -106,7 +106,6 @@ static double readNonNegativeDouble(const char *prompt)
 }
 
 
-/* Copies src to dest in lower case. */
 static void toLowerCopy(char *dest, const char *src)
 {
     int i;
@@ -116,7 +115,7 @@ static void toLowerCopy(char *dest, const char *src)
     dest[i] = '\0';
 }
 
-/* Returns 1 if text contains keyword (case-insensitive). */
+
 static int containsIgnoreCase(const char *text, const char *keyword)
 {
     char t[LINE_LEN], k[LINE_LEN];
@@ -129,7 +128,6 @@ static int containsIgnoreCase(const char *text, const char *keyword)
     return strstr(t, k) != NULL;
 }
 
-/* Returns 1 if two strings are equal, ignoring case. */
 static int equalsIgnoreCase(const char *a, const char *b)
 {
     char la[LINE_LEN], lb[LINE_LEN];
@@ -158,7 +156,7 @@ static void printAssetRow(const Asset *a)
            a->department, a->condition);
 }
 
-/* Lets the user pick one option from a list; copies it into dest. */
+
 static void chooseFromList(const char *title, const char *options[],
                            int count, char *dest)
 {
@@ -170,7 +168,7 @@ static void chooseFromList(const char *title, const char *options[],
     }
     choice = readIntInRange("Select option: ", 1, count);
     if (choice < 1) {
-        choice = count;             /* EOF fallback */
+        choice = count;             
     }
     strcpy(dest, options[choice - 1]);
 }
@@ -315,7 +313,7 @@ void assetMenu(void)
             case 1: addAsset();      break;
             case 2: displayAssets(); break;
             case 3: searchAsset();   break;
-            default: break;          /* 4 or EOF: return */
+            default: break;          
         }
     } while (choice >= 1 && choice != 4);
 }
