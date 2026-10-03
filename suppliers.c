@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include "suppliers.h"
 
 #define MAX 5   /* maximum number of suppliers */
 
