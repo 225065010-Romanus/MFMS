@@ -1,7 +1,7 @@
 
 #include <stdio.h>
 #include <string.h>
-#include "supplier.h"
+#include "suppliers.h"
 
 #define MAX_SUPPLIERS 5
 
