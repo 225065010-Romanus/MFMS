@@ -1,3 +1,4 @@
+//author: 226141608 Samy Mujinga Wa Pelekoni//
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -7,6 +8,7 @@
 #include "assets.h"
 #include "reports.h"
 
+/* Show the main menu to the user. This is the central navigation point of the app. */
 static void displayMenu(void)
 {
     printf("\n========================================\n");
@@ -20,7 +22,7 @@ static void displayMenu(void)
     printf("6. Exit\n");
 }
 
-/* Ask until the user enters a whole number from min to max */
+/* Read a valid whole number in a safe way. This prevents crashes from bad user input. */
 static int readMenuChoice(int min, int max)
 {
     char line[64], *end;
@@ -31,7 +33,7 @@ static int readMenuChoice(int min, int max)
         printf("Enter your choice: ");
         if (fgets(line, sizeof line, stdin) == NULL)
             exit(0);
-        if (strchr(line, '\n') == NULL)      /* line too long: discard rest */
+        if (strchr(line, '\n') == NULL)      /* line too long: discard the rest */
             while ((c = getchar()) != '\n' && c != EOF)
                 ;
         value = strtol(line, &end, 10);
@@ -46,6 +48,7 @@ static int readMenuChoice(int min, int max)
     }
 }
 
+/* The main program loop. It keeps the system alive until the user chooses Exit. */
 int main(void)
 {
     int choice;
@@ -55,22 +58,27 @@ int main(void)
         choice = readMenuChoice(1, 6);
 
         switch (choice) {
-            case 1: 
-            employeeMenu(); 
-            break;
-            case 2: 
-            budgetMenu();   
-            break;
-            case 3: 
-            supplierMenu(); 
-            break;
-            case 4: 
-            assetMenu();    
-            break;
-            case 5: reportsMenu();  
-            break;
-            case 6: printf("Goodbye.\n"); 
-            break;
+            case 1:
+                employeeMenu();
+                break;
+            case 2:
+                budgetMenu();
+                break;
+            case 3:
+                supplierMenu();
+                break;
+            case 4:
+                assetMenu();
+                break;
+            case 5:
+                reportsMenu();
+                break;
+            case 6:
+                printf("Goodbye.\n");
+                break;
+            default:
+                printf("Unexpected menu selection.\n");
+                break;
         }
     } while (choice != 6);
 

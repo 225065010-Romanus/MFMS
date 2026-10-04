@@ -16,6 +16,9 @@ void addBudget(void);
 void recordExpenditure(void);
 void displayBudgets(void);
 void displayOverBudget(void);
+double getTotalAllocatedBudget(void);
+double getTotalExpenditure(void);
+int getOverBudgetDepartmentCount(void);
 double calculateBudget(double allocated, double expenditure);
 int findDepartment(const char name[]);
 

@@ -11,30 +11,103 @@ char supPhone[MAX_SUPPLIERS][30];
 char supTown[MAX_SUPPLIERS][50];     
 int  supCount = 0;                   /* suppliers stored so far */
 
-/* Reads a line of text and removes the Enter key */
-void readSupplierText(char text[], int size)
+static void trimText(char text[])
 {
-    fgets(text, size, stdin);
-    text[strcspn(text, "\n")] = '\0';
+    size_t len;
+    char *start = text;
+    char *end;
+
+    while (*start == ' ' || *start == '\t' || *start == '\r' || *start == '\n') {
+        start++;
+    }
+
+    len = strlen(start);
+    end = start + len;
+
+    while (end > start && (*(end - 1) == ' ' || *(end - 1) == '\t' || *(end - 1) == '\r' || *(end - 1) == '\n')) {
+        end--;
+    }
+    *end = '\0';
+
+    if (start != text) {
+        memmove(text, start, (size_t)(end - start) + 1);
+    }
+}
+
+static void readSupplierText(char text[], int size)
+{
+    char line[200];
+
+    while (1) {
+        printf("Enter value: ");
+        if (fgets(line, sizeof(line), stdin) == NULL) {
+            text[0] = '\0';
+            return;
+        }
+
+        trimText(line);
+
+        if (line[0] == '\0') {
+            printf("This field cannot be empty. Please try again.\n");
+            continue;
+        }
+
+        if ((int)strlen(line) >= size) {
+            printf("Input is too long. Please try again.\n");
+            continue;
+        }
+
+        strcpy(text, line);
+        return;
+    }
+}
+
+static int supplierNameExists(const char *name)
+{
+    int i;
+
+    for (i = 0; i < supCount; i++) {
+        if (strcmp(supName[i], name) == 0) {
+            return 1;
+        }
+    }
+
+    return 0;
 }
 
 /* Adds one supplier */
-void addSupplier()
+void addSupplier(void)
 {
     if (supCount >= MAX_SUPPLIERS) {
         printf("Supplier list is full.\n");
         return;
     }
-    printf("Enter supplier name: ");  readSupplierText(supName[supCount], 100);
-    printf("Enter email: ");          readSupplierText(supEmail[supCount], 100);
-    printf("Enter phone: ");          readSupplierText(supPhone[supCount], 30);
-    printf("Enter town: ");           readSupplierText(supTown[supCount], 50);
+
+    printf("Enter supplier name: ");
+    readSupplierText(supName[supCount], 100);
+    printf("Enter email: ");
+    readSupplierText(supEmail[supCount], 100);
+    printf("Enter phone: ");
+    readSupplierText(supPhone[supCount], 30);
+    printf("Enter town: ");
+    readSupplierText(supTown[supCount], 50);
+
+    if (supName[supCount][0] == '\0' || supEmail[supCount][0] == '\0' || supPhone[supCount][0] == '\0' || supTown[supCount][0] == '\0') {
+        printf("Supplier registration cancelled because at least one required field was empty.\n");
+        return;
+    }
+
+    if (supplierNameExists(supName[supCount])) {
+        printf("A supplier with this name already exists. Please use a different name.\n");
+        return;
+    }
+
     supCount++;
     printf("Supplier added.\n");
 }
 
 /* Shows all suppliers */
-void displaySupplier()
+void displaySupplier(void)
 {
     int i;
     if (supCount == 0) {
@@ -48,8 +121,14 @@ void displaySupplier()
     }
 }
 
+/* Return the number of suppliers currently stored */
+int getSupplierCount(void)
+{
+    return supCount;
+}
+
 /* Finds a supplier by exact name */
-void searchSupplier()
+void searchSupplier(void)
 {
     char search[100];
     int i;
@@ -66,7 +145,7 @@ void searchSupplier()
 }
 
 /* Supplier sub-menu: call this from the main menu option "Supplier Management" */
-void supplierMenu()
+void supplierMenu(void)
 {
     char line[10];
     int choice;

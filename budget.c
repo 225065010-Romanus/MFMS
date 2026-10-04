@@ -196,6 +196,47 @@ void displayOverBudget(void)
     }
 }
 
+/* Return the total amount allocated across all departments */
+double getTotalAllocatedBudget(void)
+{
+    int i;
+    double total = 0.0;
+
+    for (i = 0; i < budgetCount; i++) {
+        total += budgets[i].allocatedBudget;
+    }
+
+    return total;
+}
+
+/* Return the total expenditures across all departments */
+double getTotalExpenditure(void)
+{
+    int i;
+    double total = 0.0;
+
+    for (i = 0; i < budgetCount; i++) {
+        total += budgets[i].expenditure;
+    }
+
+    return total;
+}
+
+/* Count how many departments are currently over budget */
+int getOverBudgetDepartmentCount(void)
+{
+    int i;
+    int count = 0;
+
+    for (i = 0; i < budgetCount; i++) {
+        if (budgets[i].expenditure > budgets[i].allocatedBudget) {
+            count++;
+        }
+    }
+
+    return count;
+}
+
 /* Budget management menu */
 void budgetMenu(void)
 {
