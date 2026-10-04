@@ -4,7 +4,9 @@
 #define MAX_EMPLOYEES      100
 #define CHAR_LENGTH        100
 #define PHONE_LENGTH       20
-static int count = 0;//count the number of employees added
+
+/* Shared employee state across the employee module */
+extern int count;
 
 /* Define the Employee structure */
 typedef struct {
@@ -16,17 +18,16 @@ typedef struct {
     double housingAllowance;
     double transportAllowance;
     double basicSalary;
-    
 } Employee;
-
-static Employee employees[MAX_EMPLOYEES];
 
 /* Function to create an Employee */
 void createEmployee(Employee *, const char *, const char *,
                     const char *, const char *contactNumber, int , double, double, double );
-/* Function to retrieve the employee name */
+/* Function to add one or more employees from the employee submenu */
 void addEmployees(void);
-/* Function to set the employee name */
+/* Function to show the employee management menu */
+void employeeMenu(void);
+/* Function to retrieve the employee name */
 const char* getName(const Employee *);
 /* Function to set the employee department */
 void setName(Employee *, const char *);

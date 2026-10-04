@@ -7,7 +7,137 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include "employees.h"
+
+/* This module keeps the actual employee list and the employee counter */
+Employee employees[MAX_EMPLOYEES];
+int count = 0;
+
+static void trimWhitespace(char *text)
+{
+    size_t len;
+    char *start;
+    char *end;
+
+    if (text == NULL) {
+        return;
+    }
+
+    while (*text == ' ' || *text == '\t' || *text == '\r' || *text == '\n') {
+        text++;
+    }
+
+    start = text;
+    len = strlen(start);
+    end = start + len;
+
+    while (end > start && (*(end - 1) == ' ' || *(end - 1) == '\t' || *(end - 1) == '\r' || *(end - 1) == '\n')) {
+        end--;
+    }
+
+    *end = '\0';
+
+    if (start != text) {
+        memmove(text, start, (size_t)(end - start) + 1);
+    }
+}
+
+static int readRequiredText(const char *prompt, char *buffer, size_t size)
+{
+    char line[200];
+
+    while (1) {
+        printf("%s", prompt);
+        if (fgets(line, sizeof(line), stdin) == NULL) {
+            buffer[0] = '\0';
+            return 0;
+        }
+
+        trimWhitespace(line);
+
+        if (line[0] == '\0') {
+            printf("This field cannot be empty. Please try again.\n");
+            continue;
+        }
+
+        if (strlen(line) >= size) {
+            printf("Input is too long. Please enter a shorter value.\n");
+            continue;
+        }
+
+        strcpy(buffer, line);
+        return 1;
+    }
+}
+
+static int readIntegerValue(const char *prompt, int *value)
+{
+    char line[128];
+    char *end;
+    long result;
+
+    while (1) {
+        printf("%s", prompt);
+        if (fgets(line, sizeof(line), stdin) == NULL) {
+            return 0;
+        }
+
+        trimWhitespace(line);
+
+        if (line[0] == '\0') {
+            printf("This field cannot be empty. Please try again.\n");
+            continue;
+        }
+
+        result = strtol(line, &end, 10);
+        while (*end == ' ' || *end == '\t') {
+            end++;
+        }
+
+        if (end == line || *end != '\0') {
+            printf("Invalid number. Please enter a valid integer.\n");
+            continue;
+        }
+
+        *value = (int)result;
+        return 1;
+    }
+}
+
+static int readDoubleValue(const char *prompt, double *value)
+{
+    char line[128];
+    char *end;
+    double result;
+
+    while (1) {
+        printf("%s", prompt);
+        if (fgets(line, sizeof(line), stdin) == NULL) {
+            return 0;
+        }
+
+        trimWhitespace(line);
+
+        if (line[0] == '\0') {
+            printf("This field cannot be empty. Please try again.\n");
+            continue;
+        }
+
+        result = strtod(line, &end);
+        while (*end == ' ' || *end == '\t') {
+            end++;
+        }
+
+        if (end == line || *end != '\0') {
+            printf("Invalid number. Please enter a valid decimal value.\n");
+            continue;
+        }
+
+        *value = result;
+        return 1;
+    }
+}
 
 /* Function to create an Employee */
 void createEmployee(Employee *employee, const char *name, const char *department,
@@ -37,53 +167,82 @@ void createEmployee(Employee *employee, const char *name, const char *department
   
 }
 
-/* Function to add many employees */
+static int employeeIdExists(int id)
+{
+    int i;
 
-    char choice;
+    for (i = 0; i < count; i++) {
+        if (employees[i].id == id) {
+            return 1;
+        }
+    }
+
+    return 0;
+}
+
+/* Function to add many employees */
+char choice;
 void addEmployees(void)
 {
+    char name[50];
+    char department[50];
+    char jobTitle[50];
+    char contactNumber[20];
+    int id;
+    double housingAllowance;
+    double transportAllowance;
+    double basicSalary;
+
     do {
         if (count >= MAX_EMPLOYEES) {
             printf("\nEmployee storage is full.\n");
             break;
         }
 
-        char name[50];
-        char department[50];
-        char jobTitle[50];
-        char contactNumber[20];
-        int id;
-        double housingAllowance;
-        double transportAllowance;
-        double basicSalary;
-
         printf("\n========================================\n");
         printf("           ADD EMPLOYEE\n");
         printf("========================================\n");
 
-        printf("Name: ");
-        scanf(" %49[^\n]", name);
+        if (!readRequiredText("Name: ", name, sizeof(name))) {
+            return;
+        }
 
-        printf("Department: ");
-        scanf(" %49[^\n]", department);
+        if (!readRequiredText("Department: ", department, sizeof(department))) {
+            return;
+        }
 
-        printf("Job Title: ");
-        scanf(" %49[^\n]", jobTitle);
+        if (!readRequiredText("Job Title: ", jobTitle, sizeof(jobTitle))) {
+            return;
+        }
 
-        printf("Contact Number: ");
-        scanf(" %19s", contactNumber);
+        if (!readRequiredText("Contact Number: ", contactNumber, sizeof(contactNumber))) {
+            return;
+        }
 
-        printf("ID: ");
-        scanf("%d", &id);
+        if (!readIntegerValue("ID: ", &id) || id <= 0) {
+            printf("Employee ID must be a positive number.\n");
+            return;
+        }
 
-        printf("Basic Salary: ");
-        scanf("%lf", &basicSalary);
+        if (employeeIdExists(id)) {
+            printf("Employee ID %d already exists. Please use a unique ID.\n", id);
+            return;
+        }
 
-        printf("Housing Allowance: ");
-        scanf("%lf", &housingAllowance);
+        if (!readDoubleValue("Basic Salary: ", &basicSalary) || basicSalary < 0) {
+            printf("Basic salary cannot be negative.\n");
+            return;
+        }
 
-        printf("Transport Allowance: ");
-        scanf("%lf", &transportAllowance);
+        if (!readDoubleValue("Housing Allowance: ", &housingAllowance) || housingAllowance < 0) {
+            printf("Housing allowance cannot be negative.\n");
+            return;
+        }
+
+        if (!readDoubleValue("Transport Allowance: ", &transportAllowance) || transportAllowance < 0) {
+            printf("Transport allowance cannot be negative.\n");
+            return;
+        }
 
         createEmployee(
             &employees[count],
@@ -100,7 +259,11 @@ void addEmployees(void)
         printf("\nEmployee added successfully!\n");
 
         printf("\nDo you want to add another employee? (Y/N): ");
-        scanf(" %c", &choice);
+        if (scanf(" %c", &choice) != 1) {
+            choice = 'N';
+        }
+        while (getchar() != '\n') {
+        }
 
     } while (choice == 'Y' || choice == 'y');
 }
@@ -228,6 +391,39 @@ void printEmployeeDetails(const Employee *employee)
     printf("Transport Allowance: %.2f\n", employee->transportAllowance);
 }
 
+/* Employee submenu: simple navigation to the employee-related actions */
+void employeeMenu(void)
+{
+    int choice;
+
+    do {
+        printf("\n========================================\n");
+        printf("           EMPLOYEE MANAGEMENT\n");
+        printf("========================================\n");
+        printf("1. Add employee\n");
+        printf("2. Search employee\n");
+        printf("3. Back to main menu\n");
+        printf("========================================\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                addEmployees();
+                break;
+            case 2:
+                searchEmployee(employees);
+                break;
+            case 3:
+                printf("Returning to main menu...\n");
+                break;
+            default:
+                printf("Invalid choice. Please try again.\n");
+                break;
+        }
+    } while (choice != 3);
+}
+
 /* Function to search an Employee */
 Employee* searchEmployee(Employee *employees)
 {
@@ -240,13 +436,18 @@ Employee* searchEmployee(Employee *employees)
     printf("1. Search by ID\n");
     printf("2. Search by name\n");
     printf("Enter your choice: ");
-    scanf("%d", &choice);
+    if (scanf("%d", &choice) != 1) {
+        printf("Invalid option.\n");
+        while (getchar() != '\n') {
+        }
+        return NULL;
+    }
+    while (getchar() != '\n') {
+    }
 
     switch (choice) {
     case 1:
-        printf("Enter the ID: ");
-        scanf("%d", &id);
-        if ((id <= 0)) {
+        if (!readIntegerValue("Enter the ID: ", &id) || id <= 0) {
             printf("Invalid employee ID.\n");
             return NULL;
         }
@@ -262,8 +463,9 @@ Employee* searchEmployee(Employee *employees)
         return NULL;
 
     case 2:
-        printf("Enter the name: ");
-        scanf("%s", name);
+        if (!readRequiredText("Enter the name: ", name, sizeof(name))) {
+            return NULL;
+        }
 
         for (int i = 0; i < MAX_EMPLOYEES; i++) {
             if (strcmp(name, employees[i].name) == 0) {
