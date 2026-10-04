@@ -1,12 +1,14 @@
-/* ===== SUPPLIER MANAGEMENT MODULE (functions only) ===== */
-/* Needs: #include <stdio.h> and #include <string.h> at the top of main.c */
+
+#include <stdio.h>
+#include <string.h>
+#include "supplier.h"
 
 #define MAX_SUPPLIERS 5
 
-char supName[MAX_SUPPLIERS][100];    /* supplier names  */
-char supEmail[MAX_SUPPLIERS][100];   /* supplier emails */
-char supPhone[MAX_SUPPLIERS][30];    /* supplier phones */
-char supTown[MAX_SUPPLIERS][50];     /* supplier towns  */
+char supEmail[MAX_SUPPLIERS][100];   
+char supName[MAX_SUPPLIERS][100];
+char supPhone[MAX_SUPPLIERS][30];
+char supTown[MAX_SUPPLIERS][50];     
 int  supCount = 0;                   /* suppliers stored so far */
 
 /* Reads a line of text and removes the Enter key */
