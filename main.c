@@ -7,9 +7,6 @@
 #include "assets.h"
 #include "reports.h"
 
-int main(void) {
-    printf("MFMS starting ...\n");
-
 static void displayMenu(void)
 {
     printf("\n========================================\n");
@@ -78,5 +75,4 @@ int main(void)
     } while (choice != 6);
 
     return 0;
-}
 }
