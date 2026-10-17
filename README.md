@@ -13,8 +13,8 @@
 | [Immanuel louw] | [226034755] | Budget Management |
 | [Christian Mutenzwa] | [225173131] | Supplier Management |
 | [Fredy Annanias] | [226142493] | Asset Management |
-| [Oscar Myumbelo] | [226] | Reports |
-| [Sammy] | [Number] | Functions, integration and validation |
+| [Oscar Myumbelo] | [226133745] | Reports |
+| [Samy Mujinga] | [226141608] | Functions, integration and validation |
 | [Romanus Johannes] | [225065010] | Testing, documentation and Git coordination |
 
 ## Project Description
