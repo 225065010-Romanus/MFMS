@@ -19,8 +19,4 @@ double calculateAverageSalary(void);
 double findHighestSalary(void);
 double findLowestSalary(void);
 
-void reportsMenu(void);
-
-
-
 #endif
