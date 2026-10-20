@@ -7,6 +7,7 @@
 
 extern Employee employees[];
 
+<<<<<<< HEAD
 static double computeTotalSalary(void)
 {
     double totalSalary = 0.0;
@@ -77,6 +78,17 @@ void dashboardReport(void)
     int i;
     int overBudgetDepartments = 0;
 
+=======
+static void dashboardReport(void)
+{
+    double totalSalary = 0.0;
+    double totalBudget = 0.0;
+    double totalExpenditure = 0.0;
+    double totalAssetValue = 0.0;
+    int i;
+    int overBudgetDepartments = 0;
+
+>>>>>>> 0289b800e464429f41175a67a864bd82c531ab0b
     printf("\n========================================\n");
     printf("          MUNICIPAL FINANCIAL DASHBOARD\n");
     printf("========================================\n");
@@ -113,13 +125,25 @@ void dashboardReport(void)
     printf("========================================\n");
 }
 
+<<<<<<< HEAD
 void employeeReport(void)
 {
+=======
+static void employeeReport(void)
+{
+    int i;
+    double totalSalary = 0.0;
+    double averageSalary;
+    double highestSalary = 0.0;
+    double lowestSalary = 0.0;
+
+>>>>>>> 0289b800e464429f41175a67a864bd82c531ab0b
     if (count == 0) {
         printf("\nNo employees have been registered yet.\n");
         return;
     }
 
+<<<<<<< HEAD
     printf("\n========== EMPLOYEE REPORT ==========");
     printf("\nTotal employees: %d\n", count);
     printf("Average salary: N$%.2f\n", calculateAverageSalary());
@@ -129,16 +153,53 @@ void employeeReport(void)
 }
 
 void budgetReport(void)
+=======
+    highestSalary = computeSalary(&employees[0]);
+    lowestSalary = computeSalary(&employees[0]);
+
+    for (i = 0; i < count; i++) {
+        double salary = computeSalary(&employees[i]);
+        totalSalary += salary;
+
+        if (salary > highestSalary) {
+            highestSalary = salary;
+        }
+
+        if (salary < lowestSalary) {
+            lowestSalary = salary;
+        }
+    }
+
+    averageSalary = totalSalary / count;
+
+    printf("\n========== EMPLOYEE REPORT ==========");
+    printf("\nTotal employees: %d\n", count);
+    printf("Average salary: N$%.2f\n", averageSalary);
+    printf("Highest salary: N$%.2f\n", highestSalary);
+    printf("Lowest salary: N$%.2f\n", lowestSalary);
+    printf("====================================\n");
+}
+
+static void budgetReport(void)
+>>>>>>> 0289b800e464429f41175a67a864bd82c531ab0b
 {
     displayBudgets();
 }
 
+<<<<<<< HEAD
 void supplierReport(void)
+=======
+static void supplierReport(void)
+>>>>>>> 0289b800e464429f41175a67a864bd82c531ab0b
 {
     displaySupplier();
 }
 
+<<<<<<< HEAD
 void assetReport(void)
+=======
+static void assetReport(void)
+>>>>>>> 0289b800e464429f41175a67a864bd82c531ab0b
 {
     displayAssetReport();
 }
@@ -192,4 +253,8 @@ void reportsMenu(void)
                 break;
         }
     } while (choice != 6);
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 0289b800e464429f41175a67a864bd82c531ab0b

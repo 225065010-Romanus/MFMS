@@ -1,13 +1,9 @@
-#ifndef REPORTS_H
-#define REPORTS_H
+#ifndef REPORT_H
+#define REPORT_H
 
-/* Member 5 - Reports module.
- * Reports read data from the other modules ONLY through their accessor
- * functions (getXCount / getXByIndex), so no module's data is shared directly. */
-
-/* Reports sub-menu - called from main.c (case 5) */
 void reportsMenu(void);
 
+<<<<<<< HEAD
 /* Individual reports */
 void dashboardReport(void);
 void employeeReport(void);
@@ -21,3 +17,6 @@ double findHighestSalary(void);
 double findLowestSalary(void);
 
 #endif
+=======
+#endif
+>>>>>>> 0289b800e464429f41175a67a864bd82c531ab0b
