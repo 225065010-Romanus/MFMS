@@ -7,7 +7,6 @@
 
 extern Employee employees[];
 
-<<<<<<< HEAD
 static double computeTotalSalary(void)
 {
     double totalSalary = 0.0;
@@ -31,7 +30,7 @@ double calculateAverageSalary(void)
 
 double findHighestSalary(void)
 {
-    double highestSalary = 0.0;
+    double highestSalary;
     int i;
 
     if (count <= 0) {
@@ -51,7 +50,7 @@ double findHighestSalary(void)
 
 double findLowestSalary(void)
 {
-    double lowestSalary = 0.0;
+    double lowestSalary;
     int i;
 
     if (count <= 0) {
@@ -71,37 +70,18 @@ double findLowestSalary(void)
 
 void dashboardReport(void)
 {
-    double totalSalary = 0.0;
-    double totalBudget = 0.0;
-    double totalExpenditure = 0.0;
-    double totalAssetValue = 0.0;
-    int i;
-    int overBudgetDepartments = 0;
+    double totalBudget;
+    double totalExpenditure;
+    double totalAssetValue;
+    int overBudgetDepartments;
+    double totalSalary = computeTotalSalary();
 
-=======
-static void dashboardReport(void)
-{
-    double totalSalary = 0.0;
-    double totalBudget = 0.0;
-    double totalExpenditure = 0.0;
-    double totalAssetValue = 0.0;
-    int i;
-    int overBudgetDepartments = 0;
-
->>>>>>> 0289b800e464429f41175a67a864bd82c531ab0b
     printf("\n========================================\n");
     printf("          MUNICIPAL FINANCIAL DASHBOARD\n");
     printf("========================================\n");
 
     printf("Employees registered: %d\n", count);
-    if (count > 0) {
-        for (i = 0; i < count; i++) {
-            totalSalary += computeSalary(&employees[i]);
-        }
-        printf("Total payroll: N$%.2f\n", totalSalary);
-    } else {
-        printf("Total payroll: N$0.00\n");
-    }
+    printf("Total payroll: N$%.2f\n", totalSalary);
 
     totalBudget = getTotalAllocatedBudget();
     totalExpenditure = getTotalExpenditure();
@@ -125,25 +105,13 @@ static void dashboardReport(void)
     printf("========================================\n");
 }
 
-<<<<<<< HEAD
 void employeeReport(void)
 {
-=======
-static void employeeReport(void)
-{
-    int i;
-    double totalSalary = 0.0;
-    double averageSalary;
-    double highestSalary = 0.0;
-    double lowestSalary = 0.0;
-
->>>>>>> 0289b800e464429f41175a67a864bd82c531ab0b
     if (count == 0) {
         printf("\nNo employees have been registered yet.\n");
         return;
     }
 
-<<<<<<< HEAD
     printf("\n========== EMPLOYEE REPORT ==========");
     printf("\nTotal employees: %d\n", count);
     printf("Average salary: N$%.2f\n", calculateAverageSalary());
@@ -153,58 +121,20 @@ static void employeeReport(void)
 }
 
 void budgetReport(void)
-=======
-    highestSalary = computeSalary(&employees[0]);
-    lowestSalary = computeSalary(&employees[0]);
-
-    for (i = 0; i < count; i++) {
-        double salary = computeSalary(&employees[i]);
-        totalSalary += salary;
-
-        if (salary > highestSalary) {
-            highestSalary = salary;
-        }
-
-        if (salary < lowestSalary) {
-            lowestSalary = salary;
-        }
-    }
-
-    averageSalary = totalSalary / count;
-
-    printf("\n========== EMPLOYEE REPORT ==========");
-    printf("\nTotal employees: %d\n", count);
-    printf("Average salary: N$%.2f\n", averageSalary);
-    printf("Highest salary: N$%.2f\n", highestSalary);
-    printf("Lowest salary: N$%.2f\n", lowestSalary);
-    printf("====================================\n");
-}
-
-static void budgetReport(void)
->>>>>>> 0289b800e464429f41175a67a864bd82c531ab0b
 {
     displayBudgets();
 }
 
-<<<<<<< HEAD
 void supplierReport(void)
-=======
-static void supplierReport(void)
->>>>>>> 0289b800e464429f41175a67a864bd82c531ab0b
 {
     displaySupplier();
 }
 
-<<<<<<< HEAD
 void assetReport(void)
-=======
-static void assetReport(void)
->>>>>>> 0289b800e464429f41175a67a864bd82c531ab0b
 {
     displayAssetReport();
 }
 
-/* Reports submenu: a quick overview of the most important system summaries */
 void reportsMenu(void)
 {
     int choice;
@@ -223,8 +153,14 @@ void reportsMenu(void)
         printf("Enter your choice: ");
 
         if (scanf("%d", &choice) != 1) {
+            int ch;
+
+            if (feof(stdin)) {
+                return;
+            }
+
             printf("Invalid input. Please try again.\n");
-            while (getchar() != '\n') {
+            while ((ch = getchar()) != '\n' && ch != EOF) {
             }
             choice = 0;
         }
@@ -253,8 +189,4 @@ void reportsMenu(void)
                 break;
         }
     } while (choice != 6);
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 0289b800e464429f41175a67a864bd82c531ab0b
