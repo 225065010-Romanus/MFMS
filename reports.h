@@ -9,6 +9,7 @@
 void reportsMenu(void);
 
 /* Individual reports */
+void dashboardReport(void);
 void employeeReport(void);
 void budgetReport(void);
 void supplierReport(void);
