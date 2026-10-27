@@ -9,7 +9,7 @@ char supEmail[MAX_SUPPLIERS][100];
 char supName[MAX_SUPPLIERS][100];
 char supPhone[MAX_SUPPLIERS][30];
 char supTown[MAX_SUPPLIERS][50];     
-int  supCount = 0;                   /* suppliers stored so far */
+int  supCount = 0;                  
 
 static void trimText(char text[])
 {
@@ -75,7 +75,7 @@ static int supplierNameExists(const char *name)
     return 0;
 }
 
-/* Adds one supplier */
+// Adds one supplier 
 void addSupplier(void)
 {
     if (supCount >= MAX_SUPPLIERS) {
@@ -106,7 +106,7 @@ void addSupplier(void)
     printf("Supplier added.\n");
 }
 
-/* Shows all suppliers */
+// Shows all of the suppliers 
 void displaySupplier(void)
 {
     int i;
@@ -121,13 +121,13 @@ void displaySupplier(void)
     }
 }
 
-/* Return the number of suppliers currently stored */
+// Return the number of suppliers we have
 int getSupplierCount(void)
 {
     return supCount;
 }
 
-/* Finds a supplier by exact name */
+// Finds supplier by name 
 void searchSupplier(void)
 {
     char search[100];
@@ -144,7 +144,7 @@ void searchSupplier(void)
     printf("Supplier not found.\n");
 }
 
-/* Supplier sub-menu: call this from the main menu option "Supplier Management" */
+// Supplier sub-menu: call this from the main menu option "Supplier Management" 
 void supplierMenu(void)
 {
     char line[10];
